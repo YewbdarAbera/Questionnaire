@@ -1,0 +1,120 @@
+/* ===== Color system (tuned for the reference look) ===== */
+:root{
+  --bg: #070c1b;                  /* deep navy */
+  --overlay: rgba(7,12,27,.66);   /* soft dark veil */
+  --panel: rgba(15, 20, 44, .78); /* glass card */
+  --edge: #1a2247;                /* card/input border */
+  --muted: #8f98c0;               /* label/secondary text */
+  --text: #e7ecff;                /* body text */
+  --heading: #f2f5ff;             /* headings */
+  --accent1: #5b8cff;             /* primary gradient top */
+  --accent2: #507bff;             /* primary gradient bottom */
+  --focus: #7aa2ff33;             /* focus halo */
+}
+
+/* ===== Base ===== */
+*{ box-sizing: border-box }
+html, body, #root{ height: 100% }
+body{
+  margin:0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(1200px 700px at 15% 0%, rgba(18,26,58,.55), transparent),
+    radial-gradient(1100px 650px at 85% 100%, rgba(18,26,58,.50), transparent),
+    var(--overlay),
+    linear-gradient(180deg, #0a1130 0%, #070c1b 60%, #070c1b 100%);
+  /* Optional image overlay for the same vibe */
+  background-image:
+    radial-gradient(1200px 700px at 15% 0%, rgba(18,26,58,.55), transparent),
+    radial-gradient(1100px 650px at 85% 100%, rgba(18,26,58,.50), transparent),
+    var(--overlay),
+    url('/client/public/bg.jpg'),
+    linear-gradient(180deg, #0a1130 0%, #070c1b 60%, #070c1b 100%);
+  background-size: cover, cover, cover, cover, 100% 100%;
+  background-position: center, center, center, center, center;
+  background-attachment: fixed;
+}
+
+/* ===== Layout ===== */
+.container{ max-width: 1120px; margin:0 auto; padding: 28px }
+.header{
+  display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom: 22px;
+}
+.header h2{
+  margin:0; color: var(--heading); letter-spacing:.2px; display:flex; align-items:center; gap:10px;
+}
+
+/* right aligned nav + language pill */
+.header nav{ display:flex; align-items:center; gap:16px }
+.link{ color: var(--accent1); text-decoration: none }
+.link:hover{ text-decoration: underline }
+
+.lang-toggle{
+  display:flex; gap:6px; padding:4px;
+  background:#0f1637; border:1px solid var(--edge); border-radius:999px
+}
+.lang-toggle button{
+  border:0; background:transparent; color:var(--muted); padding:6px 12px; border-radius:999px; cursor:pointer;
+}
+.lang-toggle .active{ background:#1a224a; color:var(--text) }
+
+/* ===== Glass card ===== */
+.card{
+  background: var(--panel);
+  border: 1px solid var(--edge);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow:
+    0 26px 80px rgba(0,0,0,.40),
+    inset 0 0 1px rgba(255,255,255,.06);
+  backdrop-filter: blur(8px);
+}
+
+/* ===== Form controls ===== */
+.row{ display:grid; grid-template-columns:1fr 1fr; gap:16px }
+@media (max-width: 840px){ .row{ grid-template-columns:1fr } }
+
+.field{ margin-bottom: 16px }
+label{ display:block; margin:0 0 6px; font-size:14px; color: var(--muted) }
+
+input, select{
+  width:100%;
+  background:#0d1433;
+  color:var(--text);
+  border:1px solid var(--edge);
+  border-radius:14px;
+  padding:12px 14px;
+  outline:none;
+  transition: border-color .15s, box-shadow .15s, background .15s;
+}
+input::placeholder{ color:#aab3dd7a }
+input:focus, select:focus{
+  border-color: #385fc7;
+  box-shadow: 0 0 0 3px var(--focus);
+  background:#0f1a47;
+}
+
+.error{ color:#ff8f8f; font-size:12px; margin-top:6px }
+.badge{ font-size:12px; padding:6px 12px; border:1px solid var(--edge); border-radius:999px; color: var(--muted) }
+
+/* ===== Buttons ===== */
+.buttonbar{ display:flex; gap:10px; margin-top:16px }
+button{
+  border:1px solid var(--edge);
+  background:#121a3a;
+  color:var(--text);
+  border-radius:14px;
+  padding:10px 16px;
+  cursor:pointer;
+}
+button.primary{
+  background: linear-gradient(180deg, var(--accent1), var(--accent2));
+  border-color:#385fc7;
+}
+button:disabled{ opacity:.6; cursor:not-allowed }
+
+/* ===== Table (admin) ===== */
+.table{ width:100%; border-collapse: collapse; margin-top: 8px }
+.table th, .table td{ border:1px solid var(--edge); padding:10px; text-align:left; vertical-align: top }
+.table th{ background:#0f1636; color:#dde4ff }
