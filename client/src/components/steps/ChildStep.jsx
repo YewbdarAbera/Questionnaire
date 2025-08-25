@@ -1,51 +1,63 @@
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { childSchema } from '../../lib/schema'
-import { useI18n } from '../../i18n'
-export default function ChildStep({ index, total, value, onValid, onBack }){
-  const { register, handleSubmit, formState:{ errors, isValid } } = useForm({
-    mode:'onChange',
-    resolver: zodResolver(childSchema),
-    defaultValues: value || { name:'', age:'', grade:'' }
-  })
-const { t } = useI18n()
+import { useMemo, useState } from "react";
+
+const GRADES = ["Elementary", "Middle School", "High School"];
+const SUBJECTS = ["Math", "Reading/Writing", "Science", "Other"];
+
+export default function ChildStep({ index,  value, onBack, onValid }) {
+  const [name, setName] = useState(value?.name || "");
+  const [grade, setGrade] = useState(value?.grade || "");
+  const [subjects, setSubjects] = useState(value?.subjects || []);
+  const isValid = useMemo(() => name.trim().length>0 && !!grade, [name, grade]);
+
+  function toggleSubject(s){
+    setSubjects(prev => prev.includes(s) ? prev.filter(x=>x!==s) : [...prev, s]);
+  }
+
   return (
-    <div>
-      <h4>{t.child(index+1, total)}</h4>
-      <form onSubmit={handleSubmit(onValid)}>
-        <div className="row">
-          <div className="field">
-            <label>{t.childName}</label>
-            <input {...register('name')} placeholder="Alex" />
-            {errors.name && <div className="error">{errors.name.message}</div>}
-          </div>
-          <div className="field">
-             <label>{t.age}</label>
-            <input type="number" min={1} max={20} {...register('age', { valueAsNumber: true })} />
-            {errors.age && <div className="error">{errors.age.message}</div>}
-          </div>
-        </div>
+    <>
+      <h1 className="wizard-title">Child {index+1} Info</h1>
 
-        <div className="field">
-         <label>{t.grade}</label>
-          <select {...register('grade')}>
-            <option value="">Select...</option>
-            <option value="K">K</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6+">6+</option>
-          </select>
-          {errors.grade && <div className="error">{errors.grade.message}</div>}
-        </div>
+      <div className="field">
+        <label>Child's name</label>
+        <input value={name} onChange={e=>setName(e.target.value)} placeholder="First name" />
+      </div>
 
-        <div className="buttonbar">
-          <button type="button" onClick={onBack}>{t.back}</button>
-         <button className="primary" type="submit" disabled={!isValid}>{t.next}</button>
-         </div>
-      </form>
-    </div>
-  )
+      <div className="field">
+        <label>Grade/Category</label>
+        <div className="pills">
+          {GRADES.map(g => (
+            <button
+              key={g}
+              type="button"
+              className={`pill ${grade===g?'active':''}`}
+              onClick={()=> setGrade(g)}
+            >
+              {g === "Elementary" ? "📚" : g === "Middle School" ? "🏫" : "🎓"} {g}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="field">
+        <label>Subjects</label>
+        <div className="pills">
+          {SUBJECTS.map(s => (
+            <button
+              key={s}
+              type="button"
+              className={`pill ${subjects.includes(s)?'active':''}`}
+              onClick={()=> toggleSubject(s)}
+            >
+              {s === "Math" ? "📊" : s==="Reading/Writing" ? "📖" : s==="Science" ? "🔬" : "🎨"} {s}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="btnbar">
+        <button className="btn" onClick={onBack}>Back</button>
+        <button className="btn primary" onClick={()=> isValid && onValid({ name: name.trim(), grade, subjects })} disabled={!isValid}>Next</button>
+      </div>
+    </>
+  );
 }

@@ -1,25 +1,28 @@
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { childrenCountSchema } from '../../lib/schema'
-import { useI18n } from '../../i18n'
-export default function HouseholdStep({ value, onValid, onBack }){
-  const { register, handleSubmit, formState:{ errors, isValid } } = useForm({
-    mode:'onChange',
-    resolver: zodResolver(childrenCountSchema),
-    defaultValues: { childrenCount: value }
-  })
-const { t } = useI18n()
+export default function HouseholdStep({ value, onBack, onValid }) {
+  const options = [1,2,3];
+
   return (
-    <form onSubmit={handleSubmit(({ childrenCount })=> onValid(childrenCount))}>
-      <div className="field">
-        <label>{t.howMany}</label>
-        <input type="number" min={0} max={10} {...register('childrenCount', { valueAsNumber: true })} />
-        {errors.childrenCount && <div className="error">{errors.childrenCount.message}</div>}
+    <>
+      <h1 className="wizard-title">How many children are we tutoring?</h1>
+
+      <div className="pills" style={{ marginTop: 12, marginBottom: 18 }}>
+        {options.map(n => (
+          <button
+            key={n}
+            className={`pill circle ${value===n ? 'active' : ''}`}
+            onClick={() => onValid(n)}
+            type="button"
+            aria-label={`${n} child${n>1?'ren':''}`}
+          >
+            {n}
+          </button>
+        ))}
       </div>
-      <div className="buttonbar">
-        <button type="button" onClick={onBack}>{t.back}</button>
-       <button className="primary" type="submit" disabled={!isValid}>{t.next}</button>
-       </div>
-    </form>
-  )
+
+      <div className="btnbar">
+        <button className="btn" onClick={onBack}>Back</button>
+        <button className="btn primary" onClick={()=> onValid(value || 1)}>Next</button>
+      </div>
+    </>
+  );
 }
