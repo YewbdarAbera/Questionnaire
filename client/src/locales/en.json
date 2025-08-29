@@ -1,0 +1,74 @@
+{
+  "landing": {
+    "title": "Tutoring Services Questionnaire",
+    "blurb": "We are a group of Ethiopians with tertiary-level teaching experience, preparing to offer affordable, high-quality tutoring services for students in the Austin area, aligned with the Texas state standardized curriculum. To ensure our services meet your needs, we have prepared a brief needs assessment survey. Please take a few minutes to complete it at your earliest convenience.",
+    "start": "Start"
+  },
+  "common": {
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "letsGo": "Let's get started!",
+    "greatStart": "Great start!",
+    "keepItUp": "Keep it up!",
+    "almost": "Almost done!",
+    "finished": "Finished!"
+  },
+  "contact": {
+    "title": "Contact Information",
+    "guardianName": "Parent/Guardian Name",
+    "email": "Email",
+    "phone": "Phone",
+    "preferred": "Preferred communication",
+    "preferredEmail": "Email",
+    "preferredPhone": "Phone",
+    "preferredText": "Text message"
+  },
+  "children": {
+    "title": "How many children are we tutoring?"
+  },
+  "child": {
+    "title": "Child {{n}} Info",
+    "name": "Child's name",
+    "grade": "Grade/Category",
+    "gElementary": "Elementary",
+    "gMiddle": "Middle School",
+    "gHigh": "High School",
+    "subjects": "Subjects",
+    "sMath": "Math",
+    "sReadWrite": "Reading/Writing",
+    "sScience": "Science",
+    "sOther": "Other"
+  },
+  "format": {
+    "title": "Tutoring Format",
+    "inPerson": "In-person/Classroom",
+    "online": "Online/Virtual",
+    "either": "Either"
+  },
+  "schedule": {
+    "title": "Preferred Schedule",
+    "weekday": "Monday–Friday after school",
+    "weekend": "Saturday and Sunday"
+  },
+  "days": {
+    "title": "Days per Week"
+  },
+  "hours": {
+    "title": "Hours per Week"
+  },
+  "goals": {
+    "title": "Tutoring Goals",
+    "improve": "Improve grades",
+    "confidence": "Build confidence",
+    "test": "Test preparation"
+  },
+  "review": {
+    "title": "Wrap-up",
+    "summaryLead": "Great job! Here's a quick overview of what you shared:"
+  },
+  "submitted": {
+    "title": "Thanks!",
+    "desc": "We received your submission."
+  }
+}

@@ -41,7 +41,7 @@ router.post("/google", async (req, res) => {
     const payload = ticket.getPayload() || {};
     const email = (payload.email || "").toLowerCase();
     if (!email) return res.status(400).json({ error: "Invalid Google token" });
-
+    console.log("Google login attempt:", payload.email);
     const allow = (process.env.ADMIN_ALLOWLIST || "")
       .split(",")
       .map((s) => s.trim().toLowerCase())

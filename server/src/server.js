@@ -1,29 +1,33 @@
-import 'dotenv/config'
-import express from 'express'
-import cors from 'cors'
-import morgan from 'morgan'
-import connectDB from './config/db.js'
-import authRoutes from './routes/auth.js'
-import surveyRoutes from './routes/surveys.js'
-import adminRoutes from './routes/admin.js'
-import ensureAdmin from './utils/ensureAdmin.js'
+import "dotenv/config";
+import express from "express";
+import cors from "cors";
+import { connectDB } from "./config/db.js";
+import surveyRoutes from "./routes/surveys.js";
 
-const app = express()
-app.use(express.json())
-app.use(morgan('dev'))
-app.use(cors({ origin: process.env.CORS_ORIGIN?.split(',') || '*', credentials: true }))
+const app = express();
 
-app.get('/api/health', (_req, res) => res.json({ ok: true }))
-app.use('/api/auth', authRoutes)
-app.use('/api/surveys', surveyRoutes)
-app.use('/api/admin', adminRoutes)
+app.use(express.json());
 
-const PORT = process.env.PORT || 4000
+// CORS: allow Vite dev origin (or use Vite proxy instead)
+const origins = (process.env.CORS_ORIGIN || "")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+app.use(cors({ origin: origins.length ? origins : "*" }));
 
-connectDB().then(async () => {
-  await ensureAdmin()
-  app.listen(PORT, () => console.log(`API running on http://localhost:${PORT}`))
-}).catch(err => {
-  console.error('Failed to start server', err)
-  process.exit(1)
-})
+app.get("/api/health", (_req, res) => res.json({ ok: true }));
+
+app.use("/api/surveys", surveyRoutes);
+
+const PORT = process.env.PORT || 4000;
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => console.log(`🚀 API on http://localhost:${PORT}`));
+  })
+  .catch((err) => {
+    console.error("❌ Failed to start API", err);
+    process.exit(1);
+  });
+
+import adminRoutes from "./routes/admin.js";
+app.use("/api/admin", adminRoutes);
